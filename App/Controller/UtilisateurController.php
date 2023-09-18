@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 use App\Model\Utilisateur;
+use App\Vue\Template;
 use App\Utils\Utilitaire;
 class UtilisateurController extends Utilisateur{
     public function addUser(){
@@ -20,6 +21,13 @@ class UtilisateurController extends Utilisateur{
            
             //tester si le compte existe
             if(!$this->findOneBy()){
+                if(!empty($_FILES['image_utilisateur']['tmp_name'])){
+                    $this->setImage($_FILES['image_utilisateur']['name']);
+                    move_uploaded_file($_FILES['image_utilisateur']['tmp_name'], './Public/asset/images/'.$_FILES['image_utilisateur']['name']);
+                }else {
+                    $this->setImage('test.png');
+                }
+                $this->setStatut(false);
                 //hasher le password
                 $this->setPassword(Utilitaire::cleanInput(password_hash($_POST['password_utilisateur'], PASSWORD_DEFAULT)));
                 $this->add();
@@ -38,4 +46,36 @@ class UtilisateurController extends Utilisateur{
         }
         include './App/Vue/vueAddUser.php';
     }
-}
+
+    public function connection(){
+        $error="";
+        if(isset($_POST['submit'])){
+            if(!empty($_POST['mail_utilisateur'])&&!empty($_POST['password_utilisateur'])){
+                $this->setMail($_POST['mail_utilisateur']);
+                $user = $this->findOneBy();
+                $hash = $user->getPassword();
+                // dd($hash);
+                
+                if($user){
+                    if(password_verify($_POST['password_utilisateur'], $hash)){
+                        
+                        $error = 'Password valide';
+                        $_SESSION['id']= $user->getId();
+                        $_SESSION['nom']= $user->getNom();
+                        $_SESSION['prenom']= $user->getPrenom();
+                        $_SESSION['image']= $user->getImage();
+
+                    } else {
+                        $error = 'Password erroné';
+                        
+                    }
+                }
+            }
+        }
+        include './App/Vue/vueConnexion.php';
+    }
+    public function exemple(){
+        Template::render('navbar.php', 'home', 'content.php', 'footer.php');
+        
+    }
+} 

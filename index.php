@@ -20,7 +20,13 @@ session_start();
             break;
         case '/mvc/rolesadd':
             $rolesController->addRoles();
-            break;    
+            break;
+        case '/mvc/connexion':
+            $userController->connection();
+            break;
+            case '/mvc/exemple':
+                $userController->exemple();
+            break;        
         default:
             include './error.php';
             break;
