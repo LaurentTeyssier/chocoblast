@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+<?php ob_start()?>
     <form action="" method="post">
-        <label for="mail_utilisateur">Saisir l'email</label>
+        <label for="mail_utilisateur">Saisir son email</label>
         <input type="email" name="mail_utilisateur">
-        <label for="password_utilisateur">Saisir le mot de passe</label>
+        <label for="password_utilisateur">Saisir son mot de passe</label>
         <input type="password" name="password_utilisateur">
         <input type="submit" value="Connexion" name="submit">
-        <div><?=$error?></div>
     </form>
-</body>
-</html>
+    <?=$error?>
+<?php $content = ob_get_clean()?>

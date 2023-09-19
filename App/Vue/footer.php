@@ -1,10 +1,7 @@
-<?php ob_start();?>
-
+<?php ob_start()?>
 <ul>
-    <li><a href="">Contact</a></li>
-    <li><a href="">Conditions</a></li>
-    <li><a href="">FAQ</a></li>
-    
+    <li>Contact</li>
+    <li>Conditions générales</li>
+    <li>Aide</li>
 </ul>
-
-<?php $footer = ob_get_clean();?>
+<?php $footer = ob_get_clean()?>
