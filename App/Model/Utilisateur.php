@@ -104,5 +104,41 @@ class Utilisateur extends BddConnect{
             die('Error : '.$e->getMessage());
         }
     }
+    public function findAll(){
+        try {
+            $id = $this->getId();
+            $req = $this->connexion()->prepare(
+                "SELECT id_utilisateur, nom_utilisateur, prenom_utilisateur, 
+                mail_utilisateur, image_utilisateur FROM utilisateur WHERE id_utilisateur != ?");
+            $req->bindParam(1, $id, \PDO::PARAM_INT);
+            $req->execute();
+            return $req->fetchAll(\PDO::FETCH_CLASS| \PDO::FETCH_PROPS_LATE, Utilisateur::class);
+        } catch (\Exception $e) {
+            die('Error : '.$e->getMessage());
+        }
+    }
+    public function mailVerify(){
+        
+        try {
+           
+            if(isset($_GET['mail'])){
+            $mail = $_GET['mail'];
+            dd($mail);
+            $req = $this->connexion()->prepare(
+                "UPDATE utilisateur
+                    SET statut_utilisateur = true
+                    WHERE mail_utilisateur = ?");
+            $req->bindParam(1, $mail, \PDO::PARAM_STR);
+            $req->execute();
+            echo "gg";
+
+            
+            header('Refresh:3 ; URL=http://localhost/mvc/connexion');
+            }
+            
+        }catch (\Exception $e) {
+            die('Error : '.$e->getMessage());
+        }
+    }
 }
 ?> 

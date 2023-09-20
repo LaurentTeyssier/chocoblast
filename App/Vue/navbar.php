@@ -2,7 +2,7 @@
 <?php if(isset($_SESSION['connected'])):?>
 <ul>
     <li><a href="./">Accueil</a></li>
-    <li><?=$_SESSION['nom']?></li>
+    <li><a href="./chocoblastadd">Ajout chocoblast</li>
     <li><a href="./deconnexion">Deconnexion</a></li>
 </ul>
 <?php else:?>

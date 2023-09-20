@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 use App\Model\Utilisateur;
+use App\Utils\Messagerie;
 use App\Utils\Utilitaire;
 use App\vue\Template;
 class UtilisateurController extends Utilisateur{
@@ -37,8 +38,14 @@ class UtilisateurController extends Utilisateur{
                         $this->setStatut(false);
                         //hashser le mot de passe
                         $this->setPassword(password_hash(Utilitaire::cleanInput($_POST['password_utilisateur']), PASSWORD_DEFAULT));
+                        //Créer les variables
+                        $destinataire = $this->getMail();
+                        $objet = "clickity clack";
+                        $contenu = "<p>Clic pour acceder au site</p><a href='http://localhost/mvc/useractivate?mail=$destinataire'>ici</a>";
+
                         //Ajouter le compte en BDD
                         $this->add();
+                        Messagerie::sendEmail($destinataire, $objet, $contenu);
                         $error = "Le compte a été ajouté en BDD";
                     }    
                     else{
